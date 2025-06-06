@@ -6,7 +6,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { validateJson } from "~/validators/json";
-import { validateYaml, validateYamlStructure, validateYamlWithSchemaDetection } from "~/validators/yaml";
+import { validateYaml } from "~/validators/yaml";
 
 const server = new Server(
   {
@@ -118,23 +118,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
-  if (name === "validate_yaml_structure") {
-    const { input } = args as { input: string };
-    const isValid = validateYamlStructure(input);
-
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify({
-            structurallyValid: isValid,
-            input,
-          }),
-        },
-      ],
-    };
-  }
-
   if (name === "validate_yaml") {
     const { input, schema, strict } = args as {
       input: string;
@@ -142,23 +125,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       strict?: boolean;
     };
     const result = validateYaml(input, { schema, strict });
-
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result),
-        },
-      ],
-    };
-  }
-
-  if (name === "validate_yaml_with_schema_detection") {
-    const { input, schemaRegistry } = args as {
-      input: string;
-      schemaRegistry?: Record<string, object>;
-    };
-    const result = validateYamlWithSchemaDetection(input, schemaRegistry || {});
 
     return {
       content: [

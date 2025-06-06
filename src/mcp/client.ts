@@ -93,8 +93,8 @@ export class ValidatorClient {
   }
 
   async validateYaml(
-    input: string, 
-    options: { schema?: object; strict?: boolean } = {}
+    input: string,
+    options: { schema?: object; strict?: boolean } = {},
   ): Promise<any> {
     const result = await this.client.request(
       {
@@ -116,7 +116,7 @@ export class ValidatorClient {
 
   async validateYamlWithSchemaDetection(
     input: string,
-    schemaRegistry: Record<string, object> = {}
+    schemaRegistry: Record<string, object> = {},
   ): Promise<any> {
     const result = await this.client.request(
       {

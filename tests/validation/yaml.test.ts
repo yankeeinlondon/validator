@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
 import { validateYaml } from "~/validators/yaml";
-import fs from "fs/promises";
 import { isValid } from "~/type-guards";
 import { Schema } from "ajv";
 

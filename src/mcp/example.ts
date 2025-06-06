@@ -4,7 +4,7 @@ import { JsonValidatorClient } from "./client.js";
 // Example usage of both transport types
 
 async function exampleStdioClient() {
-  console.log("=== STDIO Transport Example ===");
+  console.warn("=== STDIO Transport Example ===");
 
   const client = new JsonValidatorClient({
     transport: "stdio",
@@ -16,13 +16,13 @@ async function exampleStdioClient() {
     await client.connect();
 
     const tools = await client.listTools();
-    console.log("Available tools:", tools.tools);
+    console.warn("Available tools:", tools.tools);
 
     const result1 = await client.validateJson("{\"valid\": \"json\"}");
-    console.log("Valid JSON result:", result1);
+    console.warn("Valid JSON result:", result1);
 
     const result2 = await client.validateJson("{invalid json}");
-    console.log("Invalid JSON result:", result2);
+    console.warn("Invalid JSON result:", result2);
 
     await client.disconnect();
   }
@@ -32,7 +32,7 @@ async function exampleStdioClient() {
 }
 
 async function exampleSseClient() {
-  console.log("=== SSE Transport Example ===");
+  console.warn("=== SSE Transport Example ===");
 
   const client = new JsonValidatorClient({
     transport: "sse",
@@ -43,13 +43,13 @@ async function exampleSseClient() {
     await client.connect();
 
     const tools = await client.listTools();
-    console.log("Available tools:", tools.tools);
+    console.warn("Available tools:", tools.tools);
 
     const result1 = await client.validateJson("{\"valid\": \"json\"}");
-    console.log("Valid JSON result:", result1);
+    console.warn("Valid JSON result:", result1);
 
     const result2 = await client.validateJson("{invalid json}");
-    console.log("Invalid JSON result:", result2);
+    console.warn("Invalid JSON result:", result2);
 
     await client.disconnect();
   }
@@ -60,14 +60,14 @@ async function exampleSseClient() {
 
 // Run examples
 async function main() {
-  console.log("MCP Client Examples");
-  console.log("==================");
+  console.warn("MCP Client Examples");
+  console.warn("==================");
 
   // Note: For STDIO example, make sure the server is built first with `npm run build`
   // Note: For SSE example, start the HTTP server first with `npm run start:http`
 
   await exampleStdioClient();
-  console.log();
+  console.warn("");
   await exampleSseClient();
 }
 

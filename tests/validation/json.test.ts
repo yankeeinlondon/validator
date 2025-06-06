@@ -1,45 +1,56 @@
 import { describe, expect, it } from "vitest";
 import { validateJson } from "~/validators/json";
-import { isValid } from "~/type-guards";
-import type { Result } from "~/types";
+import { isInvalid, isValid } from "~/type-guards";
 
 describe("validateJson", () => {
-  it("should return success for valid JSON strings", () => {
-    const tests = ["{}","[]","\"hello\"","123","true","false","null","{\"name\": \"John\", \"age\": 30}","[1, 2, 3]"];
-    
-    tests.forEach(test => {
-      const result = validateJson(test);
-      expect(result.success).toBe(true);
-      if (isValid(result)) {
-        expect(result.message).toBe("Valid JSON string");
-      }
-    });
-  });
+    it("should return success for valid JSON strings", () => {
+        const tests = [
+            "{}",
+            "[]",
+            "\"hello\"",
+            "123", "true", "false", "null", "{\"name\": \"John\", \"age\": 30}", "[1, 2, 3]"];
 
-  it("should return failure for invalid JSON strings", () => {
-    const tests = ["{","}","[","]","{\"name\": \"John\",}","undefined","hello","{name: 'John'}",""];
-    
-    tests.forEach(test => {
-      const result = validateJson(test);
-      expect(result.success).toBe(false);
-      if (!isValid(result)) {
-        expect(result.error).toBeDefined();
-      }
-    });
-  });
+        tests.forEach(test => {
+            const result = validateJson(test);
+            expect(result.success).toBe(true);
+        });
 
-  it("should handle edge cases", () => {
-    const invalidTests = [" ", "\n", "\t", "[null, undefined]"];
-    const validTests = ["{\"a\": 1, \"b\": 2}"];
+        const arr = validateJson(`["foo","bar"]`);
+        if (isValid(arr)) {
+            expect(arr.message).toBe("Is a valid JSON array");
+        }
 
-    invalidTests.forEach(test => {
-      const result = validateJson(test);
-      expect(result.success).toBe(false);
+        const obj = validateJson(`{ foo: 1 }`);
+        if (isValid(obj)) {
+            expect(obj.message).toBe("Is a valid JSON object");
+        }
+
     });
 
-    validTests.forEach(test => {
-      const result = validateJson(test);
-      expect(result.success).toBe(true);
+    it("should return failure for invalid JSON strings", () => {
+        const tests = ["{", "}", "[", "]", "{\"name\": \"John\",}", "undefined", "hello", "{name: 'John'}", ""];
+
+        tests.forEach(test => {
+            const result = validateJson(test);
+            expect(result.success).toBe(false);
+            if (isInvalid(result)) {
+                expect(result.error).toBeDefined();
+            }
+        });
     });
-  });
+
+    it("should handle edge cases", () => {
+        const invalidTests = [" ", "\n", "\t", "[null, undefined]"];
+        const validTests = ["{\"a\": 1, \"b\": 2}"];
+
+        invalidTests.forEach(test => {
+            const result = validateJson(test);
+            expect(result.success).toBe(false);
+        });
+
+        validTests.forEach(test => {
+            const result = validateJson(test);
+            expect(result.success).toBe(true);
+        });
+    });
 });

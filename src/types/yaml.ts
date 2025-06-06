@@ -1,12 +1,11 @@
-import { Schema } from "ajv";
+import type { Schema } from "ajv";
 
-export type YamlValidationOptions = {
+export interface YamlValidationOptions {
   schema?: object;
   strict?: boolean;
-};
+}
 
-
-export type YamlValidation = {
+export interface YamlValidation {
   /** the schema which the YAML was validated against */
   schemaRef?: string | Schema;
-};
+}

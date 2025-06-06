@@ -7,8 +7,9 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+import { UnknownTool } from "~/errors";
 import { validateJson } from "~/validators/json";
-import { validateYaml, validateYamlStructure, validateYamlWithSchemaDetection } from "~/validators/yaml";
+import { validateYaml } from "~/validators/yaml";
 
 const mcpServer = new Server(
   {
@@ -120,23 +121,6 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
-  if (name === "validate_yaml_structure") {
-    const { input } = args as { input: string };
-    const isValid = validateYamlStructure(input);
-
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify({
-            structurallyValid: isValid,
-            input,
-          }),
-        },
-      ],
-    };
-  }
-
   if (name === "validate_yaml") {
     const { input, schema, strict } = args as {
       input: string;
@@ -155,24 +139,7 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
-  if (name === "validate_yaml_with_schema_detection") {
-    const { input, schemaRegistry } = args as {
-      input: string;
-      schemaRegistry?: Record<string, object>;
-    };
-    const result = validateYamlWithSchemaDetection(input, schemaRegistry || {});
-
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result),
-        },
-      ],
-    };
-  }
-
-  throw new Error(`Unknown tool: ${name}`);
+  throw UnknownTool(`The tool '${name}' is not recognized by the Validator MCP server!`);
 });
 
 const activeTransports = new Map<string, SSEServerTransport>();
@@ -277,10 +244,10 @@ const PORT = process.env.PORT || 3000;
 export function startHttpServer(): Promise<void> {
   return new Promise((resolve) => {
     server.listen(PORT, () => {
-      console.log(`MCP HTTP server listening on port ${PORT}`);
-      console.log(`SSE endpoint: http://localhost:${PORT}/mcp`);
-      console.log(`Message endpoint: http://localhost:${PORT}/mcp/message`);
-      console.log(`Health check: http://localhost:${PORT}/health`);
+      console.warn(`MCP HTTP server listening on port ${PORT}`);
+      console.warn(`SSE endpoint: http://localhost:${PORT}/mcp`);
+      console.warn(`Message endpoint: http://localhost:${PORT}/mcp/message`);
+      console.warn(`Health check: http://localhost:${PORT}/health`);
       resolve();
     });
   });

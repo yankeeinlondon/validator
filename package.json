@@ -1,68 +1,68 @@
 {
-  "name": "@yankeeinlondon/validator",
-  "version": "0.1.0",
-  "packageManager": "pnpm@10.10.0",
-  "description": "A set of validator functions which can be imported as an ESM or CJS library or fired up as an MCP server",
-  "author": "Ken Snyder <ken@ken.net>",
-  "license": "MIT",
-  "keywords": [
-    "validation",
-    "mcp"
-  ],
-  "type": "module",
-  "main": "./dist/lib/index.cjs",
-  "module": "./dist/lib/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist/lib/index.d.ts",
-      "require": "./dist/lib/index.cjs",
-      "import": "./dist/lib/index.js"
+    "name": "@yankeeinlondon/validator",
+    "version": "0.1.0",
+    "packageManager": "pnpm@10.10.0",
+    "description": "A set of validator functions which can be imported as an ESM or CJS library or fired up as an MCP server",
+    "author": "Ken Snyder <ken@ken.net>",
+    "license": "MIT",
+    "keywords": [
+        "validation",
+        "mcp"
+    ],
+    "type": "module",
+    "main": "./dist/lib/index.cjs",
+    "module": "./dist/lib/index.js",
+    "exports": {
+        ".": {
+            "types": "./dist/lib/index.d.ts",
+            "require": "./dist/lib/index.cjs",
+            "import": "./dist/lib/index.js"
+        },
+        "./mcp/server": {
+            "types": "./dist/mcp/server/server.d.ts",
+            "require": "./dist/mcp/server/index.cjs",
+            "import": "./dist/mcp/server/index.js"
+        },
+        "./mcp/client": {
+            "types": "./dist/mcp/client/client.d.ts",
+            "require": "./dist/mcp/client/client.cjs",
+            "import": "./dist/mcp/client/client.js"
+        }
     },
-    "./mcp/server": {
-      "types": "./dist/mcp/server/server.d.ts",
-      "require": "./dist/mcp/server/index.cjs",
-      "import": "./dist/mcp/server/index.js"
+    "scripts": {
+        "build": "tsdown",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "lint": "eslint src --fix",
+        "typecheck": "tsc --noEmit",
+        "start:stdio": "node dist/mcp/server.mjs",
+        "start:http": "node dist/mcp/http-server.mjs",
+        "watch": "tsdown --watch",
+        "watch:test": "vitest",
+        "release": "bumpp"
     },
-    "./mcp/client": {
-      "types": "./dist/mcp/client/client.d.ts",
-      "require": "./dist/mcp/client/client.cjs",
-      "import": "./dist/mcp/client/client.js"
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.12.1",
+        "@yankeeinlondon/kind-error": "^1.4.1",
+        "ajv": "^8.17.1",
+        "ajv-formats": "^3.0.1",
+        "chalk": "^5.4.1",
+        "inferred-types": "^0.55.23",
+        "yaml": "^2.8.0"
+    },
+    "devDependencies": {
+        "@antfu/eslint-config": "^4.13.3",
+        "@type-challenges/utils": "^0.1.1",
+        "@types/node": "22",
+        "bumpp": "^10.1.1",
+        "eslint": "^9.28.0",
+        "eslint-plugin-format": "^1.0.1",
+        "husky": "^9.1.7",
+        "jiti": "^2.4.2",
+        "node": "^20.19.2",
+        "npm-run-all": "^4.1.5",
+        "tsdown": "^0.12.6",
+        "typescript": "^5.8.3",
+        "vitest": "^3.2.1"
     }
-  },
-  "scripts": {
-    "build": "tsdown",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "start:stdio": "node dist/mcp/server.mjs",
-    "start:http": "node dist/mcp/http-server.mjs",
-    "watch": "tsdown --watch",
-    "watch:test": "vitest",
-    "release": "bumpp"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
-    "@yankeeinlondon/kind-error": "^1.4.1",
-    "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1",
-    "chalk": "^5.4.1",
-    "inferred-types": "^0.55.23",
-    "yaml": "^2.8.0"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^4.13.3",
-    "@type-challenges/utils": "^0.1.1",
-    "@types/node": "^22.15.29",
-    "bumpp": "^10.1.1",
-    "eslint": "^9.28.0",
-    "eslint-plugin-format": "^1.0.1",
-    "husky": "^9.1.7",
-    "jiti": "^2.4.2",
-    "node": "^20.19.2",
-    "npm-run-all": "^4.1.5",
-    "tsdown": "^0.12.6",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.1"
-  }
 }

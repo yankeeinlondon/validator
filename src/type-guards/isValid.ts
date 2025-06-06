@@ -1,8 +1,8 @@
-import { Result, Valid } from "~/types";
+import type { Result, Valid } from "~/types";
 
 /**
  * type guard which tests whether the validator was indeed _validated_.
  */
 export function isValid(val: Result): val is Valid {
-    return val.success;
+  return val.success === true;
 }
